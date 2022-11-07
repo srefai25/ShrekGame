@@ -14,7 +14,7 @@ public class Shrek {
         xpos = pXpos;
         ypos = pYpos;
         dx = 5;
-        dy = 0;
+        dy = 3;
         width = 100;
         length = 120;
         isOgre = true;
@@ -29,11 +29,15 @@ public class Shrek {
         xpos = xpos+dx;
         ypos = ypos+dy;
 
-             for(int x=0;x<1000;x=x+1){
-                if(xpos==900){
-                dx=-dx;
-                 }
-             }
+        if(xpos>=900 || xpos<=0){//right or left wall
+            dx=-dx;
+        }
+
+        if (ypos<=0 || ypos>=600){//top or bottom wall
+            dy=-dy;
+        }
+
+
 
     }
 
@@ -42,11 +46,13 @@ public class Shrek {
         ypos = ypos + dy;
 
 
-            for(int x=0;x<1000;x=x+1){
-                if (xpos==1000){
-                    xpos = 0;
-                }
-            }
+        if (xpos>=1000 || xpos<=0){
+            xpos = 0;
+        }
+
+        if (ypos<=700 || ypos<=0){
+            ypos=0;
+        }
 
     }
 }
