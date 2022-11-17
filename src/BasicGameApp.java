@@ -15,8 +15,7 @@
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.awt.*;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 
 //*******************************************************************************
@@ -40,11 +39,14 @@ public class BasicGameApp implements Runnable {
     public BufferStrategy bufferStrategy;
     public Image shrekPic;//doesnt matter whether public or private
     public Image fionaPic;
+    public Image humanfionaPic;
+    public Image backgroundPic;
 
     //Declare the objects used in the program
     //These are things that are made up of more than one variable type
     public Shrek shrek;
     public Shrek fiona;
+    public Shrek humanfiona;
 
     // Main method definition
     // This is the code that runs first and automatically
@@ -63,12 +65,15 @@ public class BasicGameApp implements Runnable {
         //variable and objects
         //create (construct) the objects needed for the game and load up
         shrekPic = Toolkit.getDefaultToolkit().getImage("shrek.png"); //load the picture
-        shrek = new Shrek("Shrek",800,100); //construct the astronaut
+        shrek = new Shrek("Shrek",800,100, 130, 180); //construct the astronaut
 
         fionaPic = Toolkit.getDefaultToolkit().getImage("fiona.png");
-        fiona = new Shrek("Fiona", 800, 400);
+        fiona = new Shrek("Fiona", 800, 500, 130, 180);
 
+        humanfionaPic = Toolkit.getDefaultToolkit().getImage("humanfiona.png");
+        humanfiona = new Shrek("HumanFiona", 800, 500, 80, 180);
 
+        backgroundPic = Toolkit.getDefaultToolkit().getImage("shrekforest.jpeg");
     }
 
     public void run() {
@@ -76,6 +81,7 @@ public class BasicGameApp implements Runnable {
         //for the moment we will loop things forever.
         while (true) {
             moveThings();  //move all the game objects
+            crash();
             render();  // paint the graphics
             pause(20); // sleep for 10 ms
         }
@@ -83,9 +89,22 @@ public class BasicGameApp implements Runnable {
 
     public void moveThings() {
         //calls the move( ) code in the objects
+        //fiona.isOgre = !fiona.isOgre;
         shrek.bounce();
         fiona.wrap();
 
+    }
+
+    public void crash(){
+        //when the two characters crash, then they will bounce off one another
+        int x = (int) (Math.random()*40+10);
+        if (shrek.rec.intersects(fiona.rec); int x=0; x<40; x>20; x=x+1)
+            if (int x<40;x>20;x=x+1)
+            System.out.println("CRASH");
+            fiona.isOgre = !fiona.isOgre;
+        }
+        else{
+            fionaPic.setColor =
     }
 
     //Pauses or sleeps the computer for the amount specified in milliseconds
@@ -131,8 +150,21 @@ public class BasicGameApp implements Runnable {
         g.clearRect(0, 0, WIDTH, HEIGHT);//clears astronauts after each movement (so if not there, there would be a lot of astronauts)
 
         //draw the image of the astronaut
-        g.drawImage(shrekPic, shrek.xpos, shrek.ypos, shrek.width, shrek.length, null);
-        g.drawImage(fionaPic, fiona.xpos, fiona.ypos, fiona.width, fiona.length, null);
+
+        g.drawImage(backgroundPic, 0,0, WIDTH, HEIGHT, null);
+
+        g.drawImage(shrekPic, shrek.xpos, shrek.ypos, shrek.width, shrek.height, null);
+        if (fiona.isOgre == true) {
+            g.drawImage(fionaPic, fiona.xpos, fiona.ypos, fiona.width, fiona.height, null);
+        }
+        else {
+            g.drawImage(humanfionaPic, fiona.xpos, fiona.ypos, humanfiona.width, humanfiona.height, null);
+        }
+
+
+
+        g.drawRect(shrek.rec.x, shrek.rec.y, shrek.rec.width, shrek.rec.height);
+        g.drawRect(fiona.rec.x, fiona.rec.y, fiona.rec.width, fiona.rec.height);
 
         g.dispose();//done with the image
         bufferStrategy.show();//show everything we have drawn

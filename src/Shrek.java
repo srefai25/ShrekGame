@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class Shrek {
 
     public String name;
@@ -6,18 +8,22 @@ public class Shrek {
     public int dx;
     public int dy;
     public int width;
-    public int length;
+    public int height;
     public boolean isOgre;
+    public Rectangle rec;
 
-    public Shrek(String pName, int pXpos, int pYpos){
+    public Shrek(String pName, int pXpos, int pYpos, int pWidth, int pHeight){
         name = pName;
         xpos = pXpos;
+        xpos = (int)(Math.random()*400+100);
         ypos = pYpos;
+        ypos = (int)(Math.random()*150+50);
         dx = 5;
         dy = 3;
-        width = 100;
-        length = 120;
+        width = pWidth;
+        height = pHeight;
         isOgre = true;
+        rec = new Rectangle(xpos,ypos,width,height);
     }
 
     public void move(){
@@ -37,7 +43,7 @@ public class Shrek {
             dy=-dy;
         }
 
-
+        rec = new Rectangle(xpos,ypos, width, height);
 
     }
 
@@ -50,9 +56,10 @@ public class Shrek {
             xpos = 0;
         }
 
-        if (ypos<=700 || ypos<=0){
+        if (ypos>=700 || ypos<=0){
             ypos=0;
         }
 
+        rec = new Rectangle(xpos,ypos, width, height);
     }
 }
