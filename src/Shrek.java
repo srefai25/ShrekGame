@@ -10,36 +10,48 @@ public class Shrek {
     public int width;
     public int height;
     public boolean isOgre;
+    public boolean withCat;
+    public boolean isCrashing;
+    public boolean isCrashingWithShrek;
+    public boolean isCrashingWithFiona;
     public Rectangle rec;
 
     public Shrek(String pName, int pXpos, int pYpos, int pWidth, int pHeight){
         name = pName;
         xpos = pXpos;
-        xpos = (int)(Math.random()*400+100);
         ypos = pYpos;
-        ypos = (int)(Math.random()*150+50);
         dx = 5;
         dy = 3;
         width = pWidth;
         height = pHeight;
         isOgre = true;
+        withCat = true;
+        isCrashing = false;
+        isCrashingWithShrek = false;
+        isCrashingWithFiona = false;
         rec = new Rectangle(xpos,ypos,width,height);
     }
 
-    public void move(){
+    public void move(){//move the character
         xpos = xpos+dx;
         ypos = ypos+dy;
     }
 
-    public void bounce(){
+    public void sizeMinus(){//make character change sizes and dimensions
+        width = width+dx;
+        height=height+dy;
+    }
+
+
+    public void bounce(){//bounce against the sides of the screen
         xpos = xpos+dx;
         ypos = ypos+dy;
 
-        if(xpos>=900 || xpos<=0){//right or left wall
+        if(xpos>=900-width || xpos<=0-width){//right or left wall
             dx=-dx;
         }
 
-        if (ypos<=0 || ypos>=600){//top or bottom wall
+        if (ypos<=0-height || ypos>=600-height){//top or bottom wall
             dy=-dy;
         }
 
@@ -47,7 +59,7 @@ public class Shrek {
 
     }
 
-    public void wrap(){
+    public void wrap(){//go around the screen
         xpos = xpos + dx;
         ypos = ypos + dy;
 
@@ -60,6 +72,6 @@ public class Shrek {
             ypos=0;
         }
 
-        rec = new Rectangle(xpos,ypos, width, height);
+        rec = new Rectangle(xpos,ypos, width, height);//creates a hitbox
     }
 }
