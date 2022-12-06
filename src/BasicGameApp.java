@@ -44,6 +44,8 @@ public class BasicGameApp implements Runnable {
     public Image donkeyPic;
     public Image catPic;
     public Image backgroundPic;
+    public Image heartPic;
+    public Image ShrekName;
 
     //Declare the objects used in the program
     //These are things that are made up of more than one variable type
@@ -71,34 +73,39 @@ public class BasicGameApp implements Runnable {
         //variable and objects
         //create (construct) the objects needed for the game and load up
         shrekPic = Toolkit.getDefaultToolkit().getImage("shrek.png"); //load the picture
-        shrek = new Shrek("Shrek",800,100, 200, 270); //construct the astronaut
+        shrek = new Shrek("Shrek",500,100, 200, 270, 3, 5); //construct the astronaut
 
         fionaPic = Toolkit.getDefaultToolkit().getImage("fiona.png");
-        fiona = new Shrek("Fiona", 800, 500, 275, 270);
+        fiona = new Shrek("Fiona", 800, 500, 275, 270, 3, 5);
 
         humanfionaPic = Toolkit.getDefaultToolkit().getImage("humanfiona.png");
-        humanfiona = new Shrek("HumanFiona", 800, 300, 100, 280);
+        humanfiona = new Shrek("HumanFiona", 800, 300, 100, 280, 3, 5);
 
         humanshrekPic = Toolkit.getDefaultToolkit().getImage("humanshrek.png");
-        humanshrek = new Shrek("HumanShrek", 800, 350, 300, 400);
+        humanshrek = new Shrek("HumanShrek", 800, 350, 300, 400, 3, 5);
 
         donkeyPic = Toolkit.getDefaultToolkit().getImage("donkey.png");
-        donkey = new Shrek("Donkey", 200,800, 250, 200);
+        donkey = new Shrek("Donkey", 200,400, 250, 200, 2, 0);
 
         catPic = Toolkit.getDefaultToolkit().getImage("donkeycat.png");
-        cat = new Shrek ("Puss & Boots", 300, 500, 250, 200);
+        cat = new Shrek ("Puss & Boots", 300, 100, 250, 200, 2, 0);
 
         backgroundPic = Toolkit.getDefaultToolkit().getImage("shrekforest.jpeg");
+        heartPic = Toolkit.getDefaultToolkit().getImage("heart.png");
+        ShrekName = Toolkit.getDefaultToolkit().getImage("shrekname.png");
     }
 
     public void run() {//helps place all reactions in order
 
         //for the moment we will loop things forever.
         while (true) {
-            moveThings();  //move all the game objects
+            if(shrek.GameIsPaused == false){
+                moveThings();  //move all the game objects
+            }
             FionaShrekCrash();
             DonkeyFionaCrash();
             DonkeyShrekCrash();
+            heart();
             render();  // paint the graphics
             pause(20); // sleep for 10 ms
 
@@ -173,6 +180,20 @@ public class BasicGameApp implements Runnable {
         }
     }
 
+    public void heart(){
+        if (shrek.isOgre && fiona.isOgre && donkey.withCat){
+            shrek.GameIsPaused = true;
+            shrek.xpos = 325;
+            shrek.ypos = 100;
+            fiona.xpos = 500;
+            fiona.ypos = 100;
+            donkey.xpos = 400;
+            donkey.ypos = 200;
+            pause(500);
+        }
+        shrek.GameIsPaused = false;
+    }
+
         //Pauses or sleeps the computer for the amount specified in milliseconds
         public void pause(int time ) {
             try {
@@ -219,12 +240,18 @@ public class BasicGameApp implements Runnable {
 
             g.drawImage(backgroundPic, 0,0, WIDTH, HEIGHT, null);
 
+            if (shrek.isOgre && fiona.isOgre && donkey.withCat){
+                g.drawImage(heartPic, 200,0, 650, 600, null);
+                g.drawImage(ShrekName, 200,500, 600, 200, null);
+            }//if shrek and fiona are ogres and donkey has a cat, then a heart pic will appear
+
             if (donkey.withCat == true){
-                g.drawImage(donkeyPic, donkey.xpos, donkey.ypos, donkey.width, donkey.height, null);
-            }
-            else{
                 g.drawImage(catPic, donkey.xpos, donkey.ypos, cat.width, cat.height, null);
-            }
+            }//if donkey has cat, then the donkey picture will be drawn
+
+            else{
+                g.drawImage(donkeyPic, donkey.xpos, donkey.ypos, donkey.width, donkey.height, null);
+            }//if donkey does not have cat, then
 
             if (fiona.isOgre == true) {
                 g.drawImage(fionaPic, fiona.xpos, fiona.ypos, fiona.width, fiona.height, null);

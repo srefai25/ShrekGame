@@ -14,14 +14,15 @@ public class Shrek {
     public boolean isCrashing;
     public boolean isCrashingWithShrek;
     public boolean isCrashingWithFiona;
+    public boolean GameIsPaused;
     public Rectangle rec;
 
-    public Shrek(String pName, int pXpos, int pYpos, int pWidth, int pHeight){
+    public Shrek(String pName, int pXpos, int pYpos, int pWidth, int pHeight, int pDx, int pDy){
         name = pName;
         xpos = pXpos;
         ypos = pYpos;
-        dx = 5;
-        dy = 3;
+        dx = pDx;
+        dy = pDy;
         width = pWidth;
         height = pHeight;
         isOgre = true;
@@ -29,6 +30,7 @@ public class Shrek {
         isCrashing = false;
         isCrashingWithShrek = false;
         isCrashingWithFiona = false;
+        GameIsPaused = false;
         rec = new Rectangle(xpos,ypos,width,height);
     }
 
@@ -73,5 +75,10 @@ public class Shrek {
         }
 
         rec = new Rectangle(xpos,ypos, width, height);//creates a hitbox
+    }
+
+    public void pause(){
+        xpos = xpos;
+        ypos = ypos;
     }
 }
