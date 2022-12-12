@@ -55,6 +55,11 @@ public class BasicGameApp implements Runnable {
     public Shrek humanshrek;
     public Shrek donkey;
     public Shrek cat;
+    public SoundFile transformation1;
+    public SoundFile transformation2;
+    public SoundFile transformation3;
+
+    public double startTime,nowTime;
 
     // Main method definition
     // This is the code that runs first and automatically
@@ -85,7 +90,7 @@ public class BasicGameApp implements Runnable {
         humanshrek = new Shrek("HumanShrek", 800, 350, 300, 400, 3, 5);
 
         donkeyPic = Toolkit.getDefaultToolkit().getImage("donkey.png");
-        donkey = new Shrek("Donkey", 200,400, 250, 200, 2, 0);
+        donkey = new Shrek("Donkey", 600,100, 250, 200, 0, 0);
 
         catPic = Toolkit.getDefaultToolkit().getImage("donkeycat.png");
         cat = new Shrek ("Puss & Boots", 300, 100, 250, 200, 2, 0);
@@ -93,6 +98,9 @@ public class BasicGameApp implements Runnable {
         backgroundPic = Toolkit.getDefaultToolkit().getImage("shrekforest.jpeg");
         heartPic = Toolkit.getDefaultToolkit().getImage("heart.png");
         ShrekName = Toolkit.getDefaultToolkit().getImage("shrekname.png");
+        transformation1 = new SoundFile("UFO Sweep 04 (1).wav");
+        transformation2 = new SoundFile("UFO Sweep 02.wav");
+        transformation3 = new SoundFile("UFO Sweep 03.wav");
     }
 
     public void run() {//helps place all reactions in order
@@ -117,7 +125,6 @@ public class BasicGameApp implements Runnable {
         //fiona.isOgre = !fiona.isOgre;
         shrek.bounce();
         fiona.wrap();
-        donkey.wrap();
         shrek.sizeMinus();
     }
 
@@ -129,11 +136,13 @@ public class BasicGameApp implements Runnable {
                 System.out.println("CRASH");
                 shrek.isCrashing = true;
                 fiona.isOgre = !fiona.isOgre;//fiona could possibly become an ogre and vice versa
+                transformation1.play();
             }
             else {
                 System.out.println("CRASH2");
                 shrek.isCrashing = true;
                 shrek.isOgre = !shrek.isOgre;//shrek could become an ogre and vice versa
+                transformation1.play();
             }
         }
         if(!shrek.rec.intersects(fiona.rec)){//reset shrek.isCrashing to false if no longer intersecting
@@ -149,11 +158,13 @@ public class BasicGameApp implements Runnable {
                 System.out.println("CRASH");
                 donkey.isCrashingWithFiona = true;
                 donkey.withCat = !donkey.withCat;//donkey could have a cat on its back and vice versa
+                transformation2.play();
             }
             else {
                 System.out.println("CRASH2");
                 donkey.isCrashingWithFiona = true;
                 fiona.isOgre = !fiona.isOgre;//fiona could become an ogre and vice versa
+                transformation2.play();
             }
         }
         if(!donkey.rec.intersects(fiona.rec)){//reset shrek.isCrashing to false if no longer intersecting
@@ -168,11 +179,13 @@ public class BasicGameApp implements Runnable {
                 System.out.println("CRASH");
                 donkey.isCrashingWithShrek = true;
                 donkey.withCat = !donkey.withCat;//donkey could have a cat on its back and vice versa
+                transformation3.play();
             }
             else {
                 System.out.println("CRASH2");
                 donkey.isCrashingWithShrek = true;
                 shrek.isOgre = !shrek.isOgre;//shrek could become ogre and vice versa
+                transformation3.play();
             }
         }
         if(!donkey.rec.intersects(shrek.rec)){//reset shrek.isCrashing to false if no longer intersecting
@@ -182,6 +195,9 @@ public class BasicGameApp implements Runnable {
 
     public void heart(){
         if (shrek.isOgre && fiona.isOgre && donkey.withCat){
+            if(shrek.GameIsPaused==false) {
+                startTime = System.currentTimeMillis();
+            }
             shrek.GameIsPaused = true;
             shrek.xpos = 325;
             shrek.ypos = 100;
@@ -189,9 +205,16 @@ public class BasicGameApp implements Runnable {
             fiona.ypos = 100;
             donkey.xpos = 400;
             donkey.ypos = 200;
-            pause(500);
+            shrek.width = 200;
+                    shrek.height = 270;
+           // System.out.println("boom");
+
         }
-        shrek.GameIsPaused = false;
+      //  System.out.println(System.currentTimeMillis()-startTime);
+        if(System.currentTimeMillis()-startTime>2000){
+            shrek.GameIsPaused=false;
+        }
+
     }
 
         //Pauses or sleeps the computer for the amount specified in milliseconds

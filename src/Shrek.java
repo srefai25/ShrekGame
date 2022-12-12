@@ -77,7 +77,7 @@ public class Shrek {
         rec = new Rectangle(xpos,ypos, width, height);//creates a hitbox
     }
 
-    public void pause(){
+    public void stay(){
         xpos = xpos;
         ypos = ypos;
     }
